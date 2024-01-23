@@ -79,7 +79,7 @@ const ChartCard: React.FC<CardProps> = (id) => {
 
   return (
     <View className="flex-1 items-center justify-center">
-      <View className=" w-full">
+      <View>
         <LineChart
           areaChart
           curved
