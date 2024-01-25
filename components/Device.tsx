@@ -66,7 +66,6 @@ const Device: React.FC<CardProps> = ({
   };
 
   return (
-    
     <Pressable
       disabled={!enable}
       onLongPress={onClick}
@@ -142,7 +141,6 @@ const Device: React.FC<CardProps> = ({
                 )}
               </View>
             </View>
-
           </View>
         );
       }}
