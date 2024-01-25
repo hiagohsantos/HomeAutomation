@@ -69,7 +69,7 @@ const GateCard: React.FC<FetchDataProps> = () => {
       title="Portão Eletrônico"
       icon="3"
       text={buttonText}
-      textConfig="text-2xl font-bold text-gray-500 mt-2 dark:text-gray-300"
+      textConfig="text-xl font-bold text-gray-500 mt-2 dark:text-gray-300"
       enable={!isButtonDisabled}
       loading={isButtonDisabled}
       onClick={sendData}

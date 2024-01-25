@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { ref, onValue, off, update, get } from "firebase/database";
 import { db } from "../../config";
 
+
 import {
   useColorScheme,
   Pressable,
@@ -99,6 +100,7 @@ export default function TabOneScreen() {
         </View>
       ) : (
         <View className="flex-1 bg-neutral-50 dark:bg-neutral-900">
+          
           <MasonryList
             data={devices}
             keyExtractor={(item) => item.id}
@@ -109,7 +111,9 @@ export default function TabOneScreen() {
             }}
             renderItem={({ item }) => renderCardItem(item as DeviceData)}
           />
+        
         </View>
+        
       )}
     </>
   );

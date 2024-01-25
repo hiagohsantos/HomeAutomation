@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "connecthome",
-    "slug": "connecthome",
+    "name": "Connect Home",
+    "slug": "ConnectHome",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -41,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "9a81585a-2c24-4c54-8e75-b7d2e493d0bc"
+        "projectId": "1a231291-0e88-4a10-947f-79582d9ef991"
       }
     }
   }

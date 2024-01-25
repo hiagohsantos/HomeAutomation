@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   View,
 } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface CardProps {
   status?: boolean;
@@ -65,6 +66,7 @@ const Device: React.FC<CardProps> = ({
   };
 
   return (
+    
     <Pressable
       disabled={!enable}
       onLongPress={onClick}
@@ -119,7 +121,7 @@ const Device: React.FC<CardProps> = ({
                 </Text>
                 {loading && <ActivityIndicator size="small" color="#34d399" />}
                 {isSwitable && (
-                  <View className="mt-5">
+                  <View className="mt-3 mr-4">
                     <Switch
                       value={status}
                       disabled={false}
@@ -140,6 +142,7 @@ const Device: React.FC<CardProps> = ({
                 )}
               </View>
             </View>
+
           </View>
         );
       }}

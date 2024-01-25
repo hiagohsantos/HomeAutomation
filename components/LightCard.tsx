@@ -65,7 +65,7 @@ const LightCard: React.FC<CardProps> = (id) => {
       title={deviceData?.title}
       connectionStatus={true}
       text={buttonStatus ? "Ligado" : "Desligado"}
-      textConfig="text-2xl font-bold text-gray-500 mt-2 dark:text-gray-300"
+      textConfig="text-xl font-bold text-gray-500 mt-2 dark:text-gray-300"
       enable={true}
       onClick={sendData}
       isSwitable={true}
