@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SMControl",
-    "slug": "SMControl",
+    "name": "Connect Home",
+    "slug": "Connect Home",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hiagos26.SMControl"
+      "package": "com.hiagoSantos.ConnectHome"
     },
     "web": {
       "bundler": "metro",
