@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Connect Home",
-    "slug": "Connect Home",
+    "name": "connecthome",
+    "slug": "connecthome",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.hiagoSantos.ConnectHome"
+      "package": "com.hiagosantos.connecthome"
     },
     "web": {
       "bundler": "metro",
