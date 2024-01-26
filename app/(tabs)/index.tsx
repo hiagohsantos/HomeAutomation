@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   View,
   Alert,
+  Image,
 } from "react-native";
 import LottieView from "lottie-react-native";
 import LightCard from "../../components/LightCard";
@@ -67,7 +68,7 @@ export default function TabOneScreen() {
   return (
     <>
       {error ? (
-        <View className="flex-1 items-center w-full bg-neutral-50 dark:bg-neutral-900">
+        <View className="flex-1 items-center w-full bg-[#1F232C]">
           <Text className="text-zinc-900 text-xl font-bold text-center mt-10 dark:text-zinc-300">
             Houve uma falha ao buscar os dispositivos
           </Text>
@@ -99,8 +100,7 @@ export default function TabOneScreen() {
           </Text>
         </View>
       ) : (
-        <View className="flex-1 bg-neutral-50 dark:bg-neutral-900">
-          
+        <View className="flex-1 bg-[#1F232C]">
           <MasonryList
             data={devices}
             keyExtractor={(item) => item.id}
@@ -111,6 +111,7 @@ export default function TabOneScreen() {
             }}
             renderItem={({ item }) => renderCardItem(item as DeviceData)}
           />
+          
         
         </View>
         

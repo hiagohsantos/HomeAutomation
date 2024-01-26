@@ -8,6 +8,7 @@ import {
   Text,
   ActivityIndicator,
   View,
+  Image,
 } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -75,12 +76,12 @@ const Device: React.FC<CardProps> = ({
         return (
           <View
             className={`rounded-lg ${
-              status ? "border border-green-400" : "border-0"
+              status ? "border border-[#63FF72]" : "border-0"
             }
                  my-2 p-3  bg-zinc-300  ${
                    pressed || !enable
-                     ? " bg-neutral-100 dark:bg-neutral-800"
-                     : "bg-neutral-200 dark:bg-neutral-700"
+                     ? " bg-[#404658] "
+                     : "bg-[#2a2e3a]  "
                  } `}
             style={{
               transform: [
@@ -90,54 +91,57 @@ const Device: React.FC<CardProps> = ({
               ],
             }}
           >
-            <View className="flex-row justify-between ">
-              <View className="items-start">
-                {icon && iconMapping[icon] ? (
-                  iconMapping[icon]
-                ) : (
-                  <FontAwesome name="gears" size={size} color={color} />
-                )}
+            <View className="flex-1 min-h-[80]">
+              <View className=" w-full items-end">
+                <View className={`rounded-lg  h-2 w-2 ${
+                    connectionStatus ? " bg-[#63FF72]" : " bg-red-400"
+                  }`}
+                />
               </View>
-
-              <View
-                className={` rounded-md items-center justify-center ${
-                  connectionStatus ? " bg-green-400" : " bg-red-400"
-                }`}
-              >
-                <Text className=" text-xs m-1 font-bold">
-                  {connectionStatus ? "Ativo" : "Inativo"}
+              <View className=" flex-row"> 
+                <View className="items-start">
+                  {icon && iconMapping[icon] ? (
+                    iconMapping[icon]
+                  ) : (
+                    <FontAwesome name="gears" size={size} color={color} />
+                  )}
+                </View>
+              <View className=" max-w-[160] ml-1">
+                <Text className="font-bold text-lg text-gray-500">
+                  {title ? title : "Dispositivo"}
                 </Text>
               </View>
+              </View>
+              
             </View>
             <View className=" divide-y divide-neutral-900">
-              <Text className="font-bold text-lg text-gray-500">
-                {title ? title : "Dispositivo"}
-              </Text>
+             
 
               <View className="justify-between flex-row">
                 <Text className={textConfig}>
                   {text ? text : "Desconhecido"}
                 </Text>
+                
                 {loading && <ActivityIndicator size="small" color="#34d399" />}
                 {isSwitable && (
-                  <View className="mt-3 mr-4">
-                    <Switch
-                      value={status}
-                      disabled={false}
-                      activeText={"On"}
-                      inActiveText={"Off"}
-                      circleSize={20}
-                      barHeight={20}
-                      circleBorderWidth={3}
-                      backgroundActive={"#34d399"}
-                      backgroundInactive={"gray"}
-                      circleActiveColor={"#737373"}
-                      circleInActiveColor={"#000000"}
-                      changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
-                      renderActiveText={false}
-                      renderInActiveText={false}
-                    />
-                  </View>
+                  <Pressable>
+                  {({ pressed }) => {
+                        return (
+                          <View style={{
+                            transform: [
+                              {
+                                scale: pressed ? 0.96 : 1,
+                              },
+                            ],
+                          }}>
+                          {status ? 
+                          <Image  className= {"h-20 w-20"} source={require("../assets/icons/PowerButtonOn.png")}/>
+                          :
+                          <Image  className= {"h-20 w-20"} source={require("../assets/icons/PowerButtonOff.png")}/>}
+                          </View>
+                            );
+                          }}
+            </Pressable>
                 )}
               </View>
             </View>

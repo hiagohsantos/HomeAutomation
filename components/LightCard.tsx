@@ -4,6 +4,7 @@ import { db } from "../config";
 import { ref, onValue, update } from "firebase/database";
 import Device from "./Device";
 import { RectButton } from "react-native-gesture-handler";
+import { Image, Pressable, View, Text} from "react-native";
 
 interface DeviceData {
   status: boolean;
@@ -51,7 +52,7 @@ const LightCard: React.FC<CardProps> = (id) => {
         setButtonStatus((status) => !status);
       }
       clearTimeout(timeoutId);
-    }, 5000);
+    }, 8000);
 
     update(ref(db, id["id"]), { set: true })
       .then((response) => {})
@@ -61,17 +62,66 @@ const LightCard: React.FC<CardProps> = (id) => {
   };
 
   return (
-    <Device
-      title={deviceData?.title}
-      connectionStatus={true}
-      text={buttonStatus ? "Ligado" : "Desligado"}
-      textConfig="text-xl font-bold text-gray-500 mt-2 dark:text-gray-300"
-      enable={true}
-      onClick={sendData}
-      isSwitable={true}
-      status={buttonStatus}
-      icon="4"
-    ></Device>
+          <View className={`m-1 p-1 rounded-lg bg-[#2a2e3a] ${buttonStatus ? "border border-[#63FF72]" : "border-0"}`}>
+            <View className="w-fit flex-row justify-between items-center mt-3 mx-3">
+                <Text className="font-extrabold text-lg text-neutral-50">
+                    {deviceData?.title ? deviceData?.title : "Dispositivo"}
+                </Text>
+                <View className={`rounded-lg h-2 w-2 ${true ? " bg-[#63FF72]" : " bg-red-400" }`}/>
+            </View>
+            <View className="w-fit flex-row justify-between items-center mx-3">
+                <Text className={"text-md font-bold text-gray-400"}>
+                    {buttonStatus ? "Ligado" : "Desligado"}
+                </Text>
+            </View>
+              
+           <View className="w-full flex-row justify-between">
+              <View className="items-start m-4">
+                  {buttonStatus ? 
+                    <Image  className= {"h-14 w-14"} source={require("../assets/icons/LightOn.png")}/>: 
+                    <Image  className= {"h-14 w-14"} source={require("../assets/icons/LightOff.png")}/>
+                  }
+              </View>
+              <View className="justify-between flex-row">
+                <Pressable
+                  className="m-1"
+                  onPress={sendData}
+                  >
+                  {({ pressed }) => {
+                        return (
+                          <View style={{
+                            transform: [
+                              {
+                                scale: pressed ? 0.96 : 1,
+                              },
+                            ],
+                          }}>
+                          {buttonStatus ? 
+                          <Image  className= {"h-20 w-20"} source={require("../assets/icons/PowerButtonOn.png")}/>
+                          :
+                          <Image  className= {"h-20 w-20"} source={require("../assets/icons/PowerButtonOff.png")}/>}
+                          </View>
+                            );
+                          }}
+                 </Pressable>
+              </View>
+            </View>
+              
+  
+              
+          </View>
+  
+    // <Device
+    //   title={deviceData?.title}
+    //   connectionStatus={true}
+    //   text={buttonStatus ? "Ligado" : "Desligado"}
+    //   textConfig="text-xl font-bold text-gray-500 mt-2 dark:text-gray-300"
+    //   enable={true}
+    //   onClick={sendData}
+    //   isSwitable={true}
+    //   status={buttonStatus}
+    //   icon="4"
+    // ></Device>
   );
 };
 export default LightCard;

@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 import LottieView from "lottie-react-native";
 import ChartCard from "../../components/ChartCard";
 
