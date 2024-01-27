@@ -1,74 +1,115 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
-import { Pressable, useColorScheme, Image } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-
+import { Pressable, useColorScheme, Image, ImageBackground, View, TextInput } from "react-native";
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import Colors from "../../constants/Colors";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useEffect, useState} from "react";
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const [username, setUsername] = useState('');
+  const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(false)
+  
+  useEffect(() => {
+    AsyncStorage.getItem('username').then(storedUsername => {
+      if (storedUsername) {
+        setUsername(storedUsername);
+        setHasLoggedIn(true)
+      }
+    });
+  }, []);
 
+  const handleLogin = () => {
+    AsyncStorage.setItem('username', username);
+    setUsername(username);
+    setHasLoggedIn(true)
+  };
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        }}
-      >
-        <Tabs.Screen
-          name="home"
-          options={{
-            title: "Home",
-            tabBarIcon: ({ color }) => (
-              <Octicons name="home" size={24} color={color} />
-            ),
+    <ThemeProvider value={DarkTheme}>
+      {hasLoggedIn ? (
+          <Tabs
+          screenOptions={{
+            tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+            headerShown: false
           }}
-        />
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: "Dispositivos",
-            tabBarIcon: ({ color }) => (
-              <MaterialIcons name="grid-view" size={24} color={color} />
-            ),
-            headerRight: () => (
-              <Link href="/modal" asChild>
-                <Pressable>
-                  {({ pressed }) => (
-                    <Image  className= {"h-5 w-5 m-2"} source={require("../../assets/icons/Gear.png")}/>
-                  )}
-                </Pressable>
-              </Link>
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            title: "Perfil",
-            tabBarIcon: ({ color }) => (
-              <Feather name="user" size={24} color={color} />
-            ),
-          }}
-        />
-      </Tabs>
+        >
+          <Tabs.Screen
+            name="home"
+            options={{
+              title: "Home",
+              tabBarIcon: ({ focused }) => (
+                focused ? 
+                <Image  className = {"h-6 w-6"} source={require("../../assets/icons/HomeFocused.png")}/>:
+                <Image  className = {"h-6 w-6"} source={require("../../assets/icons/Home.png")}/>
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="index"
+            options={{
+              title: "Dispositivos",
+              tabBarIcon: ({ focused }) => (
+                focused ? 
+                <Image  className = {"h-6 w-6"} source={require("../../assets/icons/GridFocused.png")}/>:
+                <Image  className = {"h-6 w-6"} source={require("../../assets/icons/Grid.png")}/>
+              ),
+              headerRight: () => (
+                <Link href="/modal" asChild>
+                  <Pressable>
+                    {({ pressed }) => (
+                      <Image  className= {"h-5 w-5 m-2"} source={require("../../assets/icons/Gear.png")}/>
+                    )}
+                  </Pressable>
+                </Link>
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="profile"
+            options={{
+              title: "Perfil",
+              tabBarIcon: ({ focused }) => (
+                focused ? 
+                <Image  className = {"h-6 w-6"} source={require("../../assets/icons/ProfileFocused.png")}/>:
+                <Image  className = {"h-6 w-6"} source={require("../../assets/icons/Profile.png")}/>
+              ),
+            }}
+          />
+        </Tabs>
+      ):(
+        <ImageBackground style = {{flex: 1, justifyContent: 'center'}} source={require("../../assets/images/LoginScreen.png")}>
+          <View className="flex-1 items-center justify-center">
+            <View className="justify-center items-center rounded-xl w-80 h-12 m-4">
+            <TextInput
+              className="bg-[#424B5B] rounded-lg w-80 h-12 p-2 pl-6 text-neutral-300 font-bold text-lg"
+              placeholder="Nome"
+              value={username}
+              onChangeText={text => setUsername(text)}
+            />
+            </View>
+            <Pressable
+            onPress={handleLogin}
+            >
+            {({ pressed }) => {
+                  return (
+                    <View style={{
+                      transform: [
+                        {
+                          scale: pressed ? 0.96 : 1,
+                        },
+                      ],
+                    }}>
+                    <Image  className= {"mt-6 h-12 w-80 rounded-lg"} source={require("../../assets/images/signinButton.png")}/>
+                    </View>
+                      );
+                    }}
+            </Pressable>
+          </View>
+        </ImageBackground>
+      )
+      
+      }
     </ThemeProvider>
   );
 }

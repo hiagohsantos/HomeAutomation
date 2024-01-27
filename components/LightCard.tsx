@@ -2,9 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../config";
 import { ref, onValue, update } from "firebase/database";
-import Device from "./Device";
-import { RectButton } from "react-native-gesture-handler";
-import { Image, Pressable, View, Text} from "react-native";
+import { Image, Pressable, View, Text, ImageBackground} from "react-native";
 
 interface DeviceData {
   status: boolean;
@@ -62,7 +60,8 @@ const LightCard: React.FC<CardProps> = (id) => {
   };
 
   return (
-          <View className={`m-1 p-1 rounded-lg bg-[#2a2e3a] ${buttonStatus ? "border border-[#63FF72]" : "border-0"}`}>
+    <ImageBackground  className={"m-2"} imageStyle={{ borderRadius: 10}} source={require("../assets/icons/Card.png")}>
+          <View className={`rounded-lg  ${buttonStatus ? "border border-[#63FF72]" : "border-0"}`}>
             <View className="w-fit flex-row justify-between items-center mt-3 mx-3">
                 <Text className="font-extrabold text-lg text-neutral-50">
                     {deviceData?.title ? deviceData?.title : "Dispositivo"}
@@ -106,11 +105,8 @@ const LightCard: React.FC<CardProps> = (id) => {
                  </Pressable>
               </View>
             </View>
-              
-  
-              
           </View>
-  
+        </ImageBackground>
     // <Device
     //   title={deviceData?.title}
     //   connectionStatus={true}
