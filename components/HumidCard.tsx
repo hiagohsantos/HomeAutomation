@@ -87,7 +87,7 @@ const HumidCard: React.FC<CardProps> = (id) => {
               </View>
               <View className="justify-between flex-row">
               <View className="w-fit flex-row justify-between items-center mx-3">
-                <Text className={"m-4 text-5xl font-bold text-gray-400"}>
+                <Text className={"my-2 text-5xl font-bold text-gray-400"}>
                 {deviceData?.valorMaisRecente}{deviceData?.unit}
                 </Text>
             </View>

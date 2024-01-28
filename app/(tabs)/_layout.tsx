@@ -18,7 +18,6 @@ export default function TabLayout() {
     AsyncStorage.getItem('username').then(storedUsername => {
       SplashScreen.hideAsync();
       setIsloading(false)
-      console.log("achei")
       if (storedUsername) {
         setUsername(storedUsername);
         setHasLoggedIn(true)

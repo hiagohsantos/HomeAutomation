@@ -56,11 +56,11 @@ export default function TabOneScreen() {
         let novaMensagem = '';
 
         if (hora >= 5 && hora < 12) {
-          novaMensagem = 'Bom dia';
+          novaMensagem = 'Bom dia,';
         } else if (hora >= 12 && hora < 18) {
-          novaMensagem = 'Boa tarde';
+          novaMensagem = 'Boa tarde,';
         } else {
-          novaMensagem = 'Boa noite';
+          novaMensagem = 'Boa noite,';
         }
         setMensagem(`${novaMensagem} ${storedUsername}`);
       }

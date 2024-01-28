@@ -39,9 +39,8 @@ const TempCard: React.FC<CardProps> = (id) => {
       const valorMaisRecente = maisRecente ? maisRecente.value : 0;
       // Converter o timestamp para um formato de hora (horas:minutos)
       const horaMaisRecente = maisRecente
-        ? new Date(Number(maisRecente.timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        ? new Date(Number(maisRecente.timestamp) * 1000).toLocaleTimeString(["pt-br"], { hour: '2-digit', minute: '2-digit' })
         : "00:00";
-
 
       setDeviceData({
         type: data.type,
@@ -89,7 +88,7 @@ const TempCard: React.FC<CardProps> = (id) => {
               </View>
               <View className="justify-between flex-row">
               <View className="w-fit flex-row justify-between items-center mx-3">
-                <Text className={"m-4 text-5xl font-bold text-gray-400"}>
+                <Text className={"my-2 text-5xl font-bold text-gray-400"}>
                 {deviceData?.valorMaisRecente}{deviceData?.unit}
                 </Text>
             </View>
