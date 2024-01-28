@@ -3,21 +3,27 @@ import { Pressable, useColorScheme, Image, ImageBackground, View, TextInput } fr
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import Colors from "../../constants/Colors";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
+import * as SplashScreen from 'expo-splash-screen';
 
+SplashScreen.preventAutoHideAsync();
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const [username, setUsername] = useState('');
   const [hasLoggedIn, setHasLoggedIn] = useState<boolean>(false)
+  const [isloading, setIsloading] = useState<boolean>(true)
   
   useEffect(() => {
     AsyncStorage.getItem('username').then(storedUsername => {
+      SplashScreen.hideAsync();
+      setIsloading(false)
+      console.log("achei")
       if (storedUsername) {
         setUsername(storedUsername);
         setHasLoggedIn(true)
       }
-    });
+    })
   }, []);
 
   const handleLogin = () => {
@@ -25,6 +31,11 @@ export default function TabLayout() {
     setUsername(username);
     setHasLoggedIn(true)
   };
+
+  if (isloading) {
+    return null;
+  }
+
   return (
     <ThemeProvider value={DarkTheme}>
       {hasLoggedIn ? (
@@ -100,7 +111,9 @@ export default function TabLayout() {
                         },
                       ],
                     }}>
-                    <Image  className= {"mt-6 h-12 w-80 rounded-lg"} source={require("../../assets/images/signinButton.png")}/>
+                    {username ? 
+                    (<Image  className= {"mt-6 h-12 w-80 rounded-lg"} source={require("../../assets/icons/LoginButtonEnable.png")}/>):
+                    (<Image  className= {"mt-6 h-12 w-80 rounded-lg"} source={require("../../assets/icons/LoginButton.png")}/>)}
                     </View>
                       );
                     }}

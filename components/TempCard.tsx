@@ -18,7 +18,7 @@ interface CardProps {
   id: string;
 }
 
-const InfoCard: React.FC<CardProps> = (id) => {
+const TempCard: React.FC<CardProps> = (id) => {
   const [deviceData, setDeviceData] = useState<DeviceData>();
 
   const dataRef: DatabaseReference = ref(db,id["id"]);
@@ -68,23 +68,23 @@ const InfoCard: React.FC<CardProps> = (id) => {
                 <Text className="font-extrabold text-lg text-neutral-50">
                     {deviceData?.title ? deviceData?.title : "Dispositivo"}
                 </Text>
-                <View className={`rounded-lg h-2 w-2 ${true ? " bg-[#63FF72]" : " bg-red-400" }`}/>
+                <View className={`rounded-lg self-stretch h-2 w-2 ${true ? " bg-[#63FF72]" : " bg-red-400" }`}/>
             </View>
             <View className="w-fit flex-row justify-between items-center mx-3">
-                <Text className={"text-md font-bold text-gray-400"}>
+                <Text className={"text-md font-bold text-gray-400 my-2"}>
                     {deviceData?.horaMaisRecente}
                 </Text>
             </View>
             
            <View className="w-full flex-row justify-between">
-              <View className="items-start">
+              <View className="ml-2 items-start">
                 { (deviceData?.valorMaisRecente? deviceData?.valorMaisRecente <= 15: undefined) && 
-                 <Image  className= {"h-12 w-10"} source={require("../assets/icons/LowTemp.png")}/>}
-
+                 <Image  className= {"h-14 w-10"} source={require("../assets/icons/LowTemp.png")}/>}
                 { (deviceData?.valorMaisRecente? (deviceData?.valorMaisRecente > 15 && deviceData?.valorMaisRecente <= 30): undefined) && 
-                 <Image  className= {"h-12 w-10"} source={require("../assets/icons/Temp.png")}/>}
+                 <Image  className= {"h-14 w-10"} source={require("../assets/icons/Temp.png")}/>}
                 { (deviceData?.valorMaisRecente? deviceData?.valorMaisRecente > 30: undefined) && 
-                 <Image  className= {"h-12 w-10"} source={require("../assets/icons/HighTemp.png")}/>}
+                 <Image  className= {"h-14 w-10"} source={require("../assets/icons/HighTemp.png")}/>}
+                {(deviceData? undefined : <Image className= {"h-14 w-10"} source={require("../assets/icons/UnknownTemp.png")}/>)}
 
               </View>
               <View className="justify-between flex-row">
@@ -97,15 +97,6 @@ const InfoCard: React.FC<CardProps> = (id) => {
             </View>
           </View>
         </ImageBackground>
-    // <Device
-    //   title={deviceData?.title}
-    //   connectionStatus={true}
-    //   text={deviceData?.data ? deviceData?.data : "00"}
-    //   textConfig="text-5xl font-bold text-gray-500 mt-3 dark:text-gray-300"
-    //   enable={false}
-    //   isSwitable={false}
-    //   icon="5"
-    // ></Device>
   );
 };
-export default InfoCard;
+export default TempCard;

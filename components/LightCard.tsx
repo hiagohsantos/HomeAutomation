@@ -66,7 +66,7 @@ const LightCard: React.FC<CardProps> = (id) => {
                 <Text className="font-extrabold text-lg text-neutral-50">
                     {deviceData?.title ? deviceData?.title : "Dispositivo"}
                 </Text>
-                <View className={`rounded-lg h-2 w-2 ${true ? " bg-[#63FF72]" : " bg-red-400" }`}/>
+                <View className={`rounded-lg h-2 w-2 self-stretch ${true ? " bg-[#63FF72]" : " bg-red-400" }`}/>
             </View>
             <View className="w-fit flex-row justify-between items-center mx-3">
                 <Text className={"text-md font-bold text-gray-400"}>

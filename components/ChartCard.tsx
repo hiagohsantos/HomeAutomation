@@ -76,18 +76,18 @@ const ChartCard: React.FC<CardProps> = (id) => {
   useEffect(() => {
     fetchData();
   }, []);
-
+  
   return (
-    <View className="flex-1 items-center justify-center">
-      <View>
+    <View className="flex-1 items-center justify-center bg-[#1F232C]">
+      
         <LineChart
           areaChart
-          curved
+          
           data={chartData}
           //rotateLabel
           width={350}
           hideDataPoints
-          spacing={Math.round(300 / chartData.length)}
+          spacing={Math.round(300 / chartData?.length? chartData?.length: 300)}
           color="#00ff83"
           thickness={2}
           startFillColor="rgba(20,105,81,0.2)"
@@ -114,46 +114,46 @@ const ChartCard: React.FC<CardProps> = (id) => {
             pointerLabelHeight: 90,
             activatePointersOnLongPress: true,
             autoAdjustPointerLabelPosition: false,
-            pointerLabelComponent: (items: any) => {
-              return (
-                <View
-                  style={{
-                    height: 90,
-                    width: 100,
-                    justifyContent: "center",
-                    marginTop: -30,
-                    marginLeft: -40,
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 14,
-                      marginBottom: 6,
-                      textAlign: "center",
-                    }}
-                  >
-                    {items[0].date}
-                  </Text>
+            // pointerLabelComponent: (items: any) => {
+            //   return (
+            //     <View
+            //       style={{
+            //         height: 90,
+            //         width: 100,
+            //         justifyContent: "center",
+            //         marginTop: -30,
+            //         marginLeft: -40,
+            //       }}
+            //     >
+            //       <Text
+            //         style={{
+            //           color: "white",
+            //           fontSize: 14,
+            //           marginBottom: 6,
+            //           textAlign: "center",
+            //         }}
+            //       >
+            //         {items[0].date}
+            //       </Text>
 
-                  <View
-                    style={{
-                      paddingHorizontal: 14,
-                      paddingVertical: 6,
-                      borderRadius: 16,
-                      backgroundColor: "white",
-                    }}
-                  >
-                    <Text style={{ fontWeight: "bold", textAlign: "center" }}>
-                      {items[0].value + ".0"}
-                    </Text>
-                  </View>
-                </View>
-              );
-            },
+            //       <View
+            //         style={{
+            //           paddingHorizontal: 14,
+            //           paddingVertical: 6,
+            //           borderRadius: 16,
+            //           backgroundColor: "white",
+            //         }}
+            //       >
+            //         <Text style={{ fontWeight: "bold", textAlign: "center" }}>
+            //           {items[0].value + ".0"}
+            //         </Text>
+            //       </View>
+            //     </View>
+            //   );
+            // },
           }}
         />
-      </View>
+   
       <View className="mt-10">
         <Text className=" dark:text-zinc-50 text-zinc-800 font-extrabold text-lg">
           Total de Tempo Ligado: {totalTimeOn} minutos

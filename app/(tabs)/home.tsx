@@ -6,26 +6,39 @@ import React, { useState, useEffect } from "react";
 
 
 export default function TabTwoScreen() {
-  const [userName , setUsername] = useState<string>("")
+
+  const [mensagem, setMensagem] = useState('');
 
   useEffect(() => {
     AsyncStorage.getItem('username').then(storedUsername => {
       if (storedUsername) {
-        setUsername(storedUsername);
+        const agora = new Date();
+        const hora = agora.getHours();
+
+        let novaMensagem = '';
+
+        if (hora >= 5 && hora < 12) {
+          novaMensagem = 'Bom dia';
+        } else if (hora >= 12 && hora < 18) {
+          novaMensagem = 'Boa tarde';
+        } else {
+          novaMensagem = 'Boa noite';
+        }
+        setMensagem(`${novaMensagem} ${storedUsername}`);
       }
     });
   }, []);
 
   return (
-     // <View className="h-full w-full bg-neutral-50 dark:bg-neutral-900">
+    //  <View className="h-full w-full bg-neutral-50 dark:bg-neutral-900">
     //   <ChartCard id={"02-holofoteAcude"}></ChartCard>
     // </View>
 
     <>
     <View className="h-10 w-full bg-[#212530]"/>
       <View className="p-2 w-full h-14 bg-[#212530] ">
-      <Text className=" ml-6 mt-2 font-extrabold text-xl text-neutral-50">
-          Olá, {userName}
+      <Text className="ml-6 mt-2 font-bold text-xl text-neutral-400">
+           {mensagem}
         </Text>
       </View>
       

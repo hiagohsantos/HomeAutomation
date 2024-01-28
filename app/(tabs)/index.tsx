@@ -18,9 +18,10 @@ import {
 } from "react-native";
 import LottieView from "lottie-react-native";
 import LightCard from "../../components/LightCard";
-import InfoCard from "../../components/InfoCard";
-import { LinearGradient } from 'expo-linear-gradient';
+import TempCard from "../../components/TempCard";
+import HumidCard from "../../components/HumidCard";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 interface DeviceData {
   status?: boolean;
@@ -35,20 +36,33 @@ const renderCardItem = (item: DeviceData) => (
   <View key={item.id}>
     {item.type === 1 && <GateCard key={item.id}></GateCard>}
     {item.type === 2 && <LightCard key={item.id} id={item.id}></LightCard>}
-    {item.type === 3 && <InfoCard key={item.id} id={item.id}></InfoCard>}
+    {item.type === 3 && <TempCard key={item.id} id={item.id}></TempCard>}
+    {item.type === 4 && <HumidCard key={item.id} id={item.id}></HumidCard>}
   </View>
 );
 
 export default function TabOneScreen() {
   const [devices, setDevices] = useState<DeviceData[]>([]);
   const [error, setError] = useState<boolean>(false);
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const [userName , setUsername] = useState<string>("")
+  const [isLoading, setLoading] = useState<boolean>(true);
+  const [mensagem, setMensagem] = useState('');
 
   useEffect(() => {
     AsyncStorage.getItem('username').then(storedUsername => {
       if (storedUsername) {
-        setUsername(storedUsername);
+        const agora = new Date();
+        const hora = agora.getHours();
+
+        let novaMensagem = '';
+
+        if (hora >= 5 && hora < 12) {
+          novaMensagem = 'Bom dia';
+        } else if (hora >= 12 && hora < 18) {
+          novaMensagem = 'Boa tarde';
+        } else {
+          novaMensagem = 'Boa noite';
+        }
+        setMensagem(`${novaMensagem} ${storedUsername}`);
       }
     });
 
@@ -75,13 +89,12 @@ export default function TabOneScreen() {
       });
   }, []);
 
-
   return (
     <>
       <View className="h-10 w-full bg-[#212530]"/>
       <View className="p-2 w-full h-14 bg-[#212530] ">
-      <Text className=" ml-6 mt-2 font-extrabold text-xl text-neutral-50">
-          Olá, {userName}
+      <Text className="ml-6 mt-2 font-bold text-xl text-neutral-400">
+        {mensagem}
         </Text>
       </View>
       
@@ -101,13 +114,13 @@ export default function TabOneScreen() {
         </View>
       ) : isLoading ? (
         <View className="flex-1 items-center justify-center  bg-[#1F232C]">
-          <Text className="text-xl text-zinc-800 dark:text-zinc-400">
+          <Text className="text-xl text-zinc-400">
             Carregando dispositivos
           </Text>
           <ActivityIndicator size="large" color="#34d399" />
         </View>
-      ) : devices.length === 0 ? (
-        <View className="flex-1 items-center">
+      ) : (devices?.length === 0) ? (
+        <View className="flex-1 items-center bg-[#1F232C]">
           <LottieView
             source={require("../../assets/animations/noDevices.json")}
             autoPlay={true}
