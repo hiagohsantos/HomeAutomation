@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { ref, onValue, off, update, get } from "firebase/database";
 import { db } from "../../config";
 
-
 import {
   useColorScheme,
   Pressable,
@@ -14,14 +13,13 @@ import {
   View,
   Alert,
   Image,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import LottieView from "lottie-react-native";
 import LightCard from "../../components/LightCard";
 import TempCard from "../../components/TempCard";
 import HumidCard from "../../components/HumidCard";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface DeviceData {
   status?: boolean;
@@ -45,22 +43,22 @@ export default function TabOneScreen() {
   const [devices, setDevices] = useState<DeviceData[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [mensagem, setMensagem] = useState('');
+  const [mensagem, setMensagem] = useState("");
 
   useEffect(() => {
-    AsyncStorage.getItem('username').then(storedUsername => {
+    AsyncStorage.getItem("username").then((storedUsername) => {
       if (storedUsername) {
         const agora = new Date();
         const hora = agora.getHours();
 
-        let novaMensagem = '';
+        let novaMensagem = "";
 
         if (hora >= 5 && hora < 12) {
-          novaMensagem = 'Bom dia,';
+          novaMensagem = "Bom dia,";
         } else if (hora >= 12 && hora < 18) {
-          novaMensagem = 'Boa tarde,';
+          novaMensagem = "Boa tarde,";
         } else {
-          novaMensagem = 'Boa noite,';
+          novaMensagem = "Boa noite,";
         }
         setMensagem(`${novaMensagem} ${storedUsername}`);
       }
@@ -91,13 +89,13 @@ export default function TabOneScreen() {
 
   return (
     <>
-      <View className="h-10 w-full bg-[#212530]"/>
-      <View className="p-2 w-full h-14 bg-[#212530] ">
-      <Text className="ml-6 mt-2 font-bold text-xl text-neutral-400">
-        {mensagem}
+      <View className="h-10 w-full bg-[#212530]" />
+      <View className="p-1 w-full bg-[#212530] ">
+        <Text className="ml-6 mt-2 font-bold text-xl text-neutral-400">
+          {mensagem}
         </Text>
       </View>
-      
+
       {error ? (
         <View className="flex-1 items-center w-full bg-[#1F232C]">
           <Text className=" text-xl font-bold text-center mt-10 text-zinc-300">
@@ -114,12 +112,10 @@ export default function TabOneScreen() {
         </View>
       ) : isLoading ? (
         <View className="flex-1 items-center justify-center  bg-[#1F232C]">
-          <Text className="text-xl text-zinc-400">
-            Carregando dispositivos
-          </Text>
+          <Text className="text-xl text-zinc-400">Carregando dispositivos</Text>
           <ActivityIndicator size="large" color="#34d399" />
         </View>
-      ) : (devices?.length === 0) ? (
+      ) : devices?.length === 0 ? (
         <View className="flex-1 items-center bg-[#1F232C]">
           <LottieView
             source={require("../../assets/animations/noDevices.json")}
@@ -131,11 +127,10 @@ export default function TabOneScreen() {
           </Text>
         </View>
       ) : (
-        
         <View className="flex-1 bg-[#1F232C]">
-          <View className=" w-full h-6 bg-[#1F232C] items-center justify-center">
+          <View className=" w-full bg-[#1F232C] items-center justify-center">
             <Text className=" ml-6 mt-2 font-bold text-sm text-zinc-500">
-                {devices.length} dispositivos encontrados
+              {devices.length} dispositivos encontrados
             </Text>
           </View>
           <MasonryList
@@ -149,9 +144,7 @@ export default function TabOneScreen() {
             renderItem={({ item }) => renderCardItem(item as DeviceData)}
           />
         </View>
-        
       )}
-   
     </>
   );
 }

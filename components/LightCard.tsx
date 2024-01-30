@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { db } from "../config";
 import { ref, onValue, update } from "firebase/database";
-import { Image, Pressable, View, Text, ImageBackground} from "react-native";
+import { Image, Pressable, View, Text, ImageBackground } from "react-native";
 
 interface DeviceData {
   status: boolean;
@@ -60,53 +60,80 @@ const LightCard: React.FC<CardProps> = (id) => {
   };
 
   return (
-    <ImageBackground  className={"m-2"} imageStyle={{ borderRadius: 10}} source={require("../assets/icons/Card.png")}>
-          <View className={`rounded-lg  ${buttonStatus ? "border border-[#63FF72]" : "border-0"}`}>
-            <View className="w-fit flex-row justify-between items-center mt-3 mx-3">
-                <Text className="font-extrabold text-lg text-neutral-50">
-                    {deviceData?.title ? deviceData?.title : "Dispositivo"}
-                </Text>
-                <View className={`rounded-lg h-2 w-2 self-stretch ${true ? " bg-[#63FF72]" : " bg-red-400" }`}/>
+    <ImageBackground
+      className={"m-1"}
+      imageStyle={{ borderRadius: 10 }}
+      source={require("../assets/icons/Card.png")}
+    >
+      <View
+        className={`rounded-lg  ${
+          buttonStatus ? "border border-[#63FF72]" : "border-0"
+        }`}
+      >
+        <View className="w-fit m-2">
+          <View className="w-fit flex-row justify-between items-center ml-3 ">
+            <Text className="font-extrabold text-lg text-neutral-50">
+              {deviceData?.title ? deviceData?.title : "Dispositivo"}
+            </Text>
+            <View
+              className={`rounded-lg h-2 w-2 self-stretch ${
+                true ? " bg-[#63FF72]" : " bg-red-400"
+              }`}
+            />
+          </View>
+          <View className="w-fit flex-row justify-between items-center mx-3">
+            <Text className={"text-md font-bold text-gray-400"}>
+              {buttonStatus ? "Ligado" : "Desligado"}
+            </Text>
+          </View>
+
+          <View className="w-full flex-row justify-between items-center">
+            <View className="items-start p-2">
+              {buttonStatus ? (
+                <Image
+                  className={"h-14 w-14"}
+                  source={require("../assets/icons/LightOn.png")}
+                />
+              ) : (
+                <Image
+                  className={"h-14 w-14"}
+                  source={require("../assets/icons/LightOff.png")}
+                />
+              )}
             </View>
-            <View className="w-fit flex-row justify-between items-center mx-3">
-                <Text className={"text-md font-bold text-gray-400"}>
-                    {buttonStatus ? "Ligado" : "Desligado"}
-                </Text>
-            </View>
-              
-           <View className="w-full flex-row justify-between">
-              <View className="items-start m-4">
-                  {buttonStatus ? 
-                    <Image  className= {"h-14 w-14"} source={require("../assets/icons/LightOn.png")}/>: 
-                    <Image  className= {"h-14 w-14"} source={require("../assets/icons/LightOff.png")}/>
-                  }
-              </View>
-              <View className="justify-between flex-row">
-                <Pressable
-                  className="m-1"
-                  onPress={sendData}
-                  >
-                  {({ pressed }) => {
-                        return (
-                          <View style={{
-                            transform: [
-                              {
-                                scale: pressed ? 0.96 : 1,
-                              },
-                            ],
-                          }}>
-                          {buttonStatus ? 
-                          <Image  className= {"h-20 w-20"} source={require("../assets/icons/PowerButtonOn.png")}/>
-                          :
-                          <Image  className= {"h-20 w-20"} source={require("../assets/icons/PowerButtonOff.png")}/>}
-                          </View>
-                            );
-                          }}
-                 </Pressable>
-              </View>
+            <View className="justify-between flex-row">
+              <Pressable className="m-1" onPress={sendData}>
+                {({ pressed }) => {
+                  return (
+                    <View
+                      style={{
+                        transform: [
+                          {
+                            scale: pressed ? 0.96 : 1,
+                          },
+                        ],
+                      }}
+                    >
+                      {buttonStatus ? (
+                        <Image
+                          className={"h-20 w-20"}
+                          source={require("../assets/icons/PowerButtonOn.png")}
+                        />
+                      ) : (
+                        <Image
+                          className={"h-20 w-20"}
+                          source={require("../assets/icons/PowerButtonOff.png")}
+                        />
+                      )}
+                    </View>
+                  );
+                }}
+              </Pressable>
             </View>
           </View>
-        </ImageBackground>
+        </View>
+      </View>
+    </ImageBackground>
     // <Device
     //   title={deviceData?.title}
     //   connectionStatus={true}
