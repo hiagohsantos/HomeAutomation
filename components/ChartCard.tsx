@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../config";
 import { ref, onValue } from "firebase/database";
-import { LineChart } from "react-native-gifted-charts";
+import { LineChart } from "react-native-chart-kit";
 import { View, Text } from "react-native";
 
 interface DeviceData {
@@ -16,7 +16,6 @@ interface CardProps {
 
 interface ChartData {
   value: number;
-  date: string;
   label: string;
 }
 
@@ -45,14 +44,10 @@ const ChartCard: React.FC<CardProps> = (id) => {
         // Se o estado for false (desligado), verifica o último evento de ligar
         if (lastTimestamp !== null) {
           const timeOn = parseInt(timestamp) - parseInt(lastTimestamp);
-          totalTime += timeOn;
-
+          totalTime += timeOn / 60;
           // Adiciona o ponto ao array de dados do gráfico
           newData.push({
             value: Math.round(totalTime),
-            date: new Date(parseInt(lastTimestamp) * 1000).toLocaleDateString(
-              "pt-br"
-            ),
             label: new Date(parseInt(lastTimestamp) * 1000).toLocaleDateString(
               "pt-br",
               {
@@ -66,21 +61,77 @@ const ChartCard: React.FC<CardProps> = (id) => {
       lastTimestamp = timestamp;
     });
 
-    const maxChartValue =
-      Math.max(...newData.map((point) => point.value)) + 100;
-    setMaxChartValue(maxChartValue);
-    setChartData(newData);
-    setTotalTimeOn(Math.round(totalTime / 60));
+    // const maxChartValue =
+    //   Math.max(...newData.map((point) => point.value)) + 100;
+    // setMaxChartValue(maxChartValue);
+
+    //console.log(newData);
+
+    const groupedData: Record<string, number> = newData.reduce(
+      (accumulator, dataPoint) => {
+        const { label, value } = dataPoint;
+
+        if (!accumulator[label]) {
+          accumulator[label] = 0;
+        }
+
+        accumulator[label] += value;
+
+        return accumulator;
+      },
+      {} as Record<string, number>
+    );
+
+    const result: ChartData[] = Object.entries(groupedData).map(
+      ([label, value]) => ({
+        label,
+        value,
+      })
+    );
+    setChartData(result);
+
+    //setTotalTimeOn(Math.round(totalTime / 60));
   }, [deviceData]);
 
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   return (
     <View className="flex-1 items-center justify-center bg-[#1F232C]">
-      
+      {chartData.length > 0 ? (
         <LineChart
+          data={{
+            labels: chartData?.map((point) => point.label),
+            datasets: [
+              {
+                data: chartData?.map((point) => point.value),
+              },
+            ],
+          }}
+          width={300}
+          height={200}
+          yAxisLabel=""
+          yAxisSuffix=""
+          chartConfig={{
+            backgroundColor: "#ffffff",
+            backgroundGradientFrom: "#ffffff",
+            backgroundGradientTo: "#ffffff",
+            decimalPlaces: 0,
+            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
+      ) : undefined}
+
+      {/* <LineChart
           areaChart
           
           data={chartData}
@@ -152,13 +203,12 @@ const ChartCard: React.FC<CardProps> = (id) => {
             //   );
             // },
           }}
-        />
-   
-      <View className="mt-10">
+        /> */}
+      {/* <View className="mt-10">
         <Text className=" dark:text-zinc-50 text-zinc-800 font-extrabold text-lg">
           Total de Tempo Ligado: {totalTimeOn} minutos
         </Text>
-      </View>
+      </View> */}
     </View>
   );
 };
