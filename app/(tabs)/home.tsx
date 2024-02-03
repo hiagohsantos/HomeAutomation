@@ -28,7 +28,7 @@ export default function TabTwoScreen() {
   }, []);
 
   return (
-    <View className="h-full w-full bg-neutral-50 dark:bg-neutral-900">
+    <View className="h-full w-full bg-neutral-900">
       <ChartCard id={"02-holofoteAcude"}></ChartCard>
     </View>
 
