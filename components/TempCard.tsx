@@ -10,6 +10,7 @@ import {
   DatabaseReference,
 } from "firebase/database";
 import { Image, Pressable, View, Text, ImageBackground } from "react-native";
+import { Link, Tabs, useRouter } from "expo-router";
 
 interface DeviceData {
   type: number;
@@ -26,7 +27,7 @@ interface CardProps {
 
 const TempCard: React.FC<CardProps> = (id) => {
   const [deviceData, setDeviceData] = useState<DeviceData>();
-
+  const router = useRouter();
   const dataRef: DatabaseReference = ref(db, id["id"]);
 
   const fetchData = () => {
@@ -77,69 +78,84 @@ const TempCard: React.FC<CardProps> = (id) => {
       imageStyle={{ borderRadius: 10 }}
       source={require("../assets/icons/Card.png")}
     >
-      <View className="w-fit m-2">
-        <View className="w-fit flex-row justify-between items-center ml-3">
-          <Text className="font-extrabold text-lg text-neutral-50">
-            {deviceData?.title ? deviceData?.title : "Dispositivo"}
-          </Text>
-          <View
-            className={`rounded-lg h-2 w-2 self-stretch ${
-              true ? " bg-[#63FF72]" : " bg-red-400"
-            }`}
-          />
-        </View>
-        <View className="w-fit flex-row justify-between items-center mx-3">
-          <Text className={"text-md font-bold text-gray-400 my-2"}>
-            {deviceData?.horaMaisRecente}
-          </Text>
-        </View>
-
-        <View className="w-full flex-row justify-between items-center">
-          <View className="p-2 items-start">
-            {(deviceData?.valorMaisRecente
-              ? deviceData?.valorMaisRecente <= 15
-              : undefined) && (
-              <Image
-                className={"h-14 w-10"}
-                source={require("../assets/icons/LowTemp.png")}
-              />
-            )}
-            {(deviceData?.valorMaisRecente
-              ? deviceData?.valorMaisRecente > 15 &&
-                deviceData?.valorMaisRecente <= 30
-              : undefined) && (
-              <Image
-                className={"h-14 w-10"}
-                source={require("../assets/icons/Temp.png")}
-              />
-            )}
-            {(deviceData?.valorMaisRecente
-              ? deviceData?.valorMaisRecente > 30
-              : undefined) && (
-              <Image
-                className={"h-14 w-10"}
-                source={require("../assets/icons/HighTemp.png")}
-              />
-            )}
-            {deviceData ? undefined : (
-              <Image
-                className={"h-14 w-10"}
-                source={require("../assets/icons/UnknownTemp.png")}
-              />
-            )}
+      <Pressable
+        onPress={(pressed) => {
+          router.push({
+            pathname: "/modal",
+            params: {
+              id: id["id"],
+              title: deviceData?.title as string,
+              type: deviceData?.type as number,
+            },
+          });
+        }}
+      >
+        <View className="w-fit m-2">
+          <View className="w-fit flex-row justify-between items-center ml-3">
+            <Text className="font-extrabold text-lg text-neutral-50">
+              {deviceData?.title ? deviceData?.title : "Dispositivo"}
+            </Text>
+            <View
+              className={`rounded-lg h-2 w-2 self-stretch ${
+                true ? " bg-[#63FF72]" : " bg-red-400"
+              }`}
+            />
           </View>
-          <View className="justify-between flex-row ">
-            <View className="w-fit flex-row justify-between items-center mx-3 ">
-              <Text className={"my-2 text-5xl font-bold text-gray-400"}>
-                {deviceData?.valorMaisRecente}
-              </Text>
-              <Text className={"text-2xl font-bold text-gray-400 self-stretch"}>
-                {deviceData?.unit}
-              </Text>
+          <View className="w-fit flex-row justify-between items-center mx-3">
+            <Text className={"text-md font-bold text-gray-400 my-2"}>
+              {deviceData?.horaMaisRecente}
+            </Text>
+          </View>
+
+          <View className="w-full flex-row justify-between items-center">
+            <View className="p-2 items-start">
+              {(deviceData?.valorMaisRecente
+                ? deviceData?.valorMaisRecente <= 15
+                : undefined) && (
+                <Image
+                  className={"h-14 w-10"}
+                  source={require("../assets/icons/LowTemp.png")}
+                />
+              )}
+              {(deviceData?.valorMaisRecente
+                ? deviceData?.valorMaisRecente > 15 &&
+                  deviceData?.valorMaisRecente <= 30
+                : undefined) && (
+                <Image
+                  className={"h-14 w-10"}
+                  source={require("../assets/icons/Temp.png")}
+                />
+              )}
+              {(deviceData?.valorMaisRecente
+                ? deviceData?.valorMaisRecente > 30
+                : undefined) && (
+                <Image
+                  className={"h-14 w-10"}
+                  source={require("../assets/icons/HighTemp.png")}
+                />
+              )}
+              {deviceData ? undefined : (
+                <Image
+                  className={"h-14 w-10"}
+                  source={require("../assets/icons/UnknownTemp.png")}
+                />
+              )}
+            </View>
+            <View className="justify-between flex-row ">
+              <View className="w-fit flex-row justify-between items-center mx-3 ">
+                <Text className={"my-2 text-5xl font-bold text-gray-400"}>
+                  {deviceData?.valorMaisRecente}
+                </Text>
+                <Text
+                  className={"text-2xl font-bold text-gray-400 self-stretch"}
+                >
+                  {deviceData?.unit}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </Pressable>
     </ImageBackground>
   );
 };
